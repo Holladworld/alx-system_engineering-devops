@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This bash script prints Best school 10 times using untill
+a=0
+until [ $a -eq 10 ]
+do
+	echo "Best School"
+	((a++))
+done
