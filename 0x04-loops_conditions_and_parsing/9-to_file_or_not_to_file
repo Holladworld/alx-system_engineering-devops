@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# This bash script gives information about the school file.
+
+file="school"
+current_directory=$(pwd)
+
+echo "Current directory: $current_directory"
+echo "File path: $file"
+
+if [ -e "$file" ]; then
+    echo "school file exists"
+    if [ -s "$file" ]; then
+        echo "school file is not empty"
+    else
+        echo "school file is empty"
+    fi
+    if [ -f "$file" ]; then
+        echo "school is a regular file"
+    fi
+else
+    echo "school file does not exist"
+fi
+
