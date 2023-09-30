@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Bash script that kills the 7-highlander process instead of
+# the 4-to_infinity_and_beyond one.
+# I started 7-highlander in Terminal #0 and then run 67-stop_me_if_you_can in
+# terminal #1, for every iteration we can see I am invincible!!!
+# appearing in terminal #0.
+pkill -f "7-highlander"
+#or 
+# pkill -15 "bash ./7-highlander"

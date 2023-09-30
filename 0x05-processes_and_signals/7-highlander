@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Bash script that displays:
+
+# To infinity and beyond indefinitely
+# With a sleep 2 in between each iteration
+# I am invincible!!! when receiving a SIGTERM signal
+
+# trap "echo 'I am invincible!!!" 15
+# OR
+trap "echo I am invincible!!!" SIGTERM
+while true
+do
+        echo To infinity and beyond
+        sleep 2
+done
+# A copy of the file 6-stop_me_if_you_can script, named 67-stop_me_if_you_can,
+# kills the 7-highlander process instead of the 4-to_infinity_and_beyond one.
