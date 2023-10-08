@@ -2,6 +2,6 @@
 # This bash script displays listening ports
 # That show only listening sockets
 
-# netstat --listening --program
+netstat --listening --program
 # or
-netstat -ltup
+# netstat -ltup
