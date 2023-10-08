@@ -1,4 +1,4 @@
-#!/usr/bin/env/ bash
+#!/usr/bin/env bash
 # This bash script displays listening ports
 # That show only listening sockets
 
