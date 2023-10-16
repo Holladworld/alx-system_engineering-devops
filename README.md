@@ -1,6 +1,6 @@
 # Software Engineering Training
 ## System Engineering Devops Language Training 
-Containing several devops programing <img align='right' src="https://cka.collectiva.in/Content/images/CourseImages/9.png">
+Containing several devops programing <img align='right' src="https://www.v2c2.at/wp-content/uploads/2021/01/devopslil.jpg">
 </br>
 ALX (Holberton School) Software Engineering <img align='right' src="(https://www.v2c2.at/wp-content/uploads/2021/01/devopslil.jpg)">
 </br>
