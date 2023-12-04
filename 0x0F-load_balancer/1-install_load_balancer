@@ -1,55 +1,43 @@
 #!/usr/bin/env bash
-# install load balancer
+# Install and configure HAproxy on your lb-01 server.
 
+apt-get update -y
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-1.8
+apt-get update -y
+apt-get install -y haproxy=1.8.\*
 
-echo -e "Updating and doing some minor checks...\n"
+echo "ENABLED=1" >> /etc/default/haproxy
+mv /etc/haproxy/haproxy.cfg{,.original}
+touch /etc/haproxy/haproxy.cfg
 
-function install() {
-	command -v "$1" &> /dev/null
+printf %s "global
+    log 127.0.0.1 local0 notice
+    maxconn 2000
+    user haproxy
+    group haproxy
 
-	#shellcheck disable=SC2181
-	if [ $? -ne 0 ]; then
-		echo -e "	Installing: $1\n"
-		sudo apt-get update -y -qq && \
-			sudo apt-get install -y "$1" -qq
-		echo -e "\n"
-	else
-		echo -e "	${1} is already installed.\n"
-	fi
-}
-
-install haproxy #install haproxy
-
-echo -e "\nSetting up some minor stuff.\n"
-
-# backup default server config file
-sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
-
-server_config=\
-"
 defaults
-  mode http
-  timeout client 15s
-  timeout connect 10s
-  timeout server 15s
-  timeout http-request 10s
-frontend clickviral-tech-frontend
-    bind *:80
-    default_backend clickviral-tech-backend
-backend clickviral-tech-backend
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option redispatch
+    timeout connect  5000
+    timeout client  10000
+    timeout server  10000
+
+listen load_balancer
+    bind 0.0.0.0:80
+    mode http
+    stats enable
+    stats uri /haproxy?stats
     balance roundrobin
+    option httpclose
+    option forwardfor
     server 412641-web-01 100.25.141.71 check
     server 412641-web-02 54.237.35.55 check
-"
+" >> /etc/haproxy/haproxy.cfg
 
-# shellcheck disable=SC2154
-echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
-
-# enable haproxy to be started by init script
-echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
-
-if [ "$(pgrep -c haproxy)" -le 0 ]; then
-	sudo service haproxy start
-else
-	sudo service haproxy restart
-fi
+service haproxy start
