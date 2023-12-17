@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Revert localhost entry in /etc/hosts to 127.0.0.1
+sudo sed -i 's/127.0.0.2/127.0.0.1/' /etc/hosts
+
+echo "localhost reverted to 127.0.0.1 in /etc/hosts"
