@@ -1,19 +1,25 @@
-# installs and configs nginx server
+# Script to install nginx using puppet
 
-package { 'nginx':
-  ensure => 'installed',
+package {'nginx':
+  ensure => 'present',
 }
 
-file { 'index.nginx-debian.html':
-  path    => '/var/www/html/index.nginx-debian.html',
-  content => 'Hello World!',
+exec {'install':
+  command  => 'sudo apt-get update ; sudo apt-get -y install nginx',
+  provider => shell,
+
 }
 
-exec { 'config':
-  command  => 'sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com/watch?v=TfgBHC5gvTI permanent;/" /etc/nginx/sites-available/default',
-  provider => 'shell',
+exec {'Hello':
+  command  => 'echo "Hello World!" | sudo tee /var/www/html/index.html',
+  provider => shell,
 }
-exec { 'start':
+
+exec {'sudo sed -i "s/listen 80 default_server;/listen 80 default_server;\\n\\tlocation \/redirect_me {\\n\\t\\treturn 301 https:\/\/www.vobels.com.ng\/;\\n\\t}/" /etc/nginx/sites-available/default'
+  provider => shell,
+}
+
+exec {'run':
   command  => 'sudo service nginx restart',
-  provider => 'shell',
+  provider => shell,
 }
